@@ -12,23 +12,21 @@ from src import handlers, model
 # pylint: disable=invalid-name
 app = Flask(__name__)
 
+@app.route('/hello', methods=['GET'])
+def hello():
+    """ say hello """
+    resp = {
+        "msg" : "hello!"
+    }
+    return jsonify(resp)
 
-@app.route('/hello/<name>', methods=['GET'])
-def say_hello(name):
-    """ Greeter Endpoint"""
-    resp = handlers.greeter(name)
-    return Response(resp, mimetype='plain/text')
 
-# For more sophisticated forms in Flask, see:
-# https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms
-@app.route('/users', defaults={'user_id': ""}, methods=['POST'])
-@app.route('/users/<user_id>', methods=['POST'])
-def update_user(user_id):
-    """Endpoint that creates or saves user in Redis database"""
-    # Note 'force=True' ignores mime-type=app/json requirement default in Flask
-    user = request.get_json(force=True)
-
-    resp = handlers.save_user(user, user_id)
+@app.route('/ping', methods=['GET'])
+def ping():
+    """ Liveness probe """
+    resp = {
+        "status" : "pass"
+    }
     return jsonify(resp)
 
 

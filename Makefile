@@ -22,18 +22,9 @@ ps:
 logs:
 	docker-compose -p ${project} logs -f
 
-.PHONY: logs-db
-logs-db:
-	docker-compose -p ${project} logs -f ms-redis
-
 .PHONY: logs-app
 logs-app:
 	docker-compose -p ${project} logs -f ${service}
-
-# connect to redis cli for debugging
-.PHONY: redis
-redis:
-	docker-compose -p ${project} exec ms-redis redis-cli -a 4n_ins3cure_P4ss
 
 # connect to the microservice cli for debugging
 .PHONY: shell
